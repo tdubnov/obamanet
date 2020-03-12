@@ -27,7 +27,7 @@ filenames = sorted(glob(searchNames,recursive=True))
 d = []
 for file in tqdm(filenames):
     #print(file)
-    if(True):
+    try:
         img = cv2.imread(file)
         x = int(np.floor((img.shape[1]-256)/2))
         # Crop to a square image
@@ -57,7 +57,7 @@ for file in tqdm(filenames):
         patch_img = np.hstack((patch_img, crop_img))
         outputNamePatch = outputFolderForpix2pix + file[len(inputFolder):-len('/00001.jpeg')]+file[len(inputFolder)+len('00001-000/'):-len('.jpeg')] + '.png'
         cv2.imwrite(outputNamePatch, patch_img)
-    else:
+    except:
         pass
 # save the extracted keypoints
 with open(saveFilename, "wb") as output_file:
