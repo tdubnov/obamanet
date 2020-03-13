@@ -77,6 +77,16 @@ def getTilt(keypoints_mn):
 	tilt = np.degrees(np.arctan(m[0]))
 	return tilt
 
+def drawJaws(keypoints, new_img, c = (255, 255, 255), th = 1, show = False):
+    keypoints = np.float32(keypoints)
+
+    for i in range(2, 14):
+        cv2.line(new_img, tuple(keypoints[i]), tuple(keypoints[i+1]), color=c, thickness=th)
+
+    if (show == True):
+        cv2.imshow('lol', new_img)
+        cv2.waitKey(10000)
+
 def drawLips(keypoints, new_img, c = (255, 255, 255), th = 1, show = False):
 
 	keypoints = np.float32(keypoints)
@@ -99,7 +109,7 @@ def getKeypointFeatures(keypoints):
 	# Leads to face position invariancy
 	mouth_kp_mean = np.average(keypoints[48:67], 0)
 	keypoints_mn = keypoints - mouth_kp_mean
-	
+
 	# Remove tilt
 	x_dash = keypoints_mn[:, 0]
 	y_dash = keypoints_mn[:, 1]
@@ -211,7 +221,7 @@ def getData(audio_kp, video_kp, pca, nTrainingVideo):
 		val_flag = True
 	else: # no validation set
 		split = n
-		
+
 	train_X = X[0:split]
 	val_X = X[split:]
 	train_y = y[0:split]
@@ -291,7 +301,7 @@ def getDataNormalized(audio_kp, video_kp, pca, nTrainingVideo):
 	y = scalerY.fit_transform(y)
 
 	split = 13000
-		
+
 	train_X = X[0:split]
 	val_X = X[split:]
 	train_y = y[0:split]
